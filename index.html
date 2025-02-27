@@ -1,28 +1,111 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>The Joy of Giving</title>
-  <link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎁 The Joy of Giving 🎁</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Poppins:wght@300;600&display=swap');
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            text-align: center;
+            padding: 20px;
+            background: url('FB_IMG_1681316596026~2.jpg') no-repeat center center/cover;
+            color: white;
+        }
+
+        .overlay {
+            background: rgba(0, 0, 0, 0.4);
+            padding: 30px;
+            border-radius: 10px;
+            display: inline-block;
+            margin-top: 20px;
+            max-width: 90%;
+        }
+
+     h1 {
+    text-align: center;
+    display: block;
+    width: 100%;
+    font-size: 3.2em; /* Slightly bigger */
+    white-space: normal; /* Allow wrapping */
+    line-height: 1.4; /* Increase spacing */
+    word-spacing: 3px;
+    margin: 0 auto; /* Ensure it's centered */
+    padding: 10px 20px; /* Add padding */
+}
+ 
+        {
+            font-size: 2.8em;
+            margin-bottom: 10px;
+        }
+
+        p {
+            font-size: 1.4em;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+
+        select, button {
+            padding: 10px;
+            font-size: 1.2em;
+            border-radius: 5px;
+            margin: 10px;
+            border: none;
+        }
+
+        button {
+            background: #FFA500;
+            font-weight: bold;
+            color: white;
+        }
+
+        button:hover {
+            background: #FF4500;
+        }
+    </style>
 </head>
-<body>
-  <div class="container">
-    <h1>Let’s Celebrate with Purpose!</h1>
-    <p>As part of Hriday’s Birthday, we’re spreading joy by donating on your behalf!</p>
-    <p>Select a cause that speaks to your heart and be part of something bigger than just a celebration!</p>
-    <p>Small acts create big change—let’s make a difference together!</p>
-    <div class="buttons">
-      <button onclick="navigateToScratchCard('Kids Education')">Kids' Education</button>
-      <button onclick="navigateToScratchCard('Elderly Care')">Elderly Care</button>
-      <button onclick="navigateToScratchCard('Animal Shelter')">Animal Shelter</button>
-      <button onclick="navigateToScratchCard('General Donation')">General Donation</button>
+<body onload="setDefaultCause()">
+    <div class="overlay">
+        <h1>🎂 Let’s Celebrate with Purpose! 🎈</h1>
+        <p>🎁 As part of <strong>Hriday’s Birthday</strong>, we’re spreading joy by <strong>donating on your behalf</strong>!</p>
+        <p>📢 <strong>Select a cause</strong> that speaks to your heart and be part of something <strong>bigger than just a celebration!</strong> 🎊</p>
+
+        <p>💡 Small acts create <strong>big change</strong>—let’s make a difference together! 🌍</p>
+
+        <p>Select where you'd like the donation to go:</p>
+        <select id="cause" onchange="storeCause()">
+            <option value="education">📚 Kids' Education</option>
+            <option value="elderly">🏡 Elderly Care</option>
+            <option value="animals">🐶 Animal Shelter</option>
+            <option value="general">💖 General Donation</option>
+        </select>
+        
+        <button onclick="redirectToScratchCard()">🎂 Celebrate with Hriday 🎂</button>
     </div>
-  </div>
-  <script>
-    function navigateToScratchCard(cause) {
-      window.location.href = `scratch_card.html?cause=${encodeURIComponent(cause)}`;
-    }
-  </script>
+
+    <audio id="birthdayAudio" src="happy-birthday-background-music-298561.mp3" loop></audio>
+
+    <script>
+        function setDefaultCause() {
+            if (!sessionStorage.getItem("selectedCause")) {
+                sessionStorage.setItem("selectedCause", "education");  // Ensure default is always set
+            }
+        }
+
+        function storeCause() {
+            const selectedCause = document.getElementById("cause").value;
+            sessionStorage.setItem("selectedCause", selectedCause);
+            document.getElementById("birthdayAudio").play();
+        }
+
+        function redirectToScratchCard() {
+            if (!sessionStorage.getItem("selectedCause")) {
+                sessionStorage.setItem("selectedCause", document.getElementById("cause").value);
+            }
+            window.location.href = "scratch_card.html";
+        }
+    </script>
 </body>
 </html>
