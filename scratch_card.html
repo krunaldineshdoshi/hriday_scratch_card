@@ -1,26 +1,118 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Scratch Card</title>
-  <link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎉 Hriday's Birthday Scratch Card 🎉</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Poppins:wght@300;600&display=swap');
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            text-align: center;
+            padding: 20px;
+            background: url('FB_IMG_1681316596026~2.jpg') no-repeat center center/cover;
+            color: white;
+        }
+
+        .overlay {
+            background: rgba(0, 0, 0, 0.6);
+            padding: 30px;
+            border-radius: 10px;
+            display: inline-block;
+            margin-top: 20px;
+            max-width: 90%;
+        }
+
+        h1 {
+            font-size: 2.8em;
+            margin-bottom: 10px;
+        }
+
+        p {
+            font-size: 1.4em;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+
+        .scratch-box {
+            background: gray;
+            padding: 15px;
+            display: inline-block;
+            cursor: pointer;
+            border-radius: 10px;
+            font-size: 1.4em;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .message-button {
+            background: #FFA500;
+            font-weight: bold;
+            color: white;
+            padding: 12px;
+            border: none;
+            margin: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1.2em;
+        }
+
+        .message-button:hover {
+            background: #FF4500;
+        }
+    </style>
 </head>
 <body>
-  <div class="container">
-    <h1>Thank You for Your Generosity!</h1>
-    <p>You've chosen to support: <span id="selected-cause"></span></p>
-    <p>Scratch below to reveal the donation amount:</p>
-    <div id="scratch-card-container">
-      <canvas id="scratch-card" width="300" height="200"></canvas>
+    <audio id="birthdayAudio" src="happy-birthday-background-music-298561.mp3" autoplay loop></audio>
+
+    <div class="overlay">
+        <h1>🎉 Hriday's Birthday Scratch Card 🎉</h1>
+        <p>Thank you for celebrating with Hriday! Birthdays are about spreading joy and kindness.</p>
+        <p>🎈 Scratch below to see the donation amount and cause we will donate on your behalf!</p>
+
+        <div class="scratch-box" onclick="revealDonation()">🎁 Scratch Here 🎁</div>
+
+        <div id="amount" class="hidden">
+            <p>🎁 We will donate ₹<span id="donationAmount"></span> for <span id="donationCause"></span> 🎁</p>
+        </div>
+
+        <p>Send a heartfelt message to:</p>
+        <button class="message-button" onclick="sendMessage('919773084403')">📩 Message Nirav</button>
+        <button class="message-button" onclick="sendMessage('919699929744')">📩 Message Ekta</button>
     </div>
-  </div>
-  <script src="scratch_card.js"></script>
-  <script>
-    // Retrieve the selected cause from the URL parameters
-    const urlParams = new URLSearchParams(window.location.search);
-    const selectedCause = urlParams.get('cause');
-    document.getElementById('selected-cause').textContent = selectedCause || 'a cause';
-  </script>
+
+    <script>
+        const amounts = [100, 150, 200, 250];
+        const causes = {
+            "education": "Kids' Education",
+            "elderly": "Elderly Care",
+            "animals": "Animal Shelter",
+            "general": "General Donation"
+        };
+
+        function revealDonation() {
+            const selectedCauseKey = sessionStorage.getItem("selectedCause") || "education"; // Ensure default is set
+
+            const selectedCause = causes[selectedCauseKey];
+            const randomAmount = amounts[Math.floor(Math.random() * amounts.length)];
+
+            document.getElementById("donationAmount").innerText = randomAmount;
+            document.getElementById("donationCause").innerText = selectedCause;
+            document.getElementById("amount").classList.remove("hidden");
+            document.querySelector(".scratch-box").style.display = "none";
+        }
+
+        function sendMessage(phone) {
+            const amount = document.getElementById("donationAmount").innerText;
+            const cause = document.getElementById("donationCause").innerText;
+            const message = `Hi! Thank you for celebrating Hriday's birthday. Kindly donate ₹${amount} for ${cause} on our behalf. Blessings & wishes for Hriday!`;
+            window.location.href = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+        }
+    </script>
 </body>
 </html>
